@@ -1,6 +1,5 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import "./main.css";
 import "./reset.css";
 import TodoInput from "./components/TodoInput";
 
@@ -14,7 +13,7 @@ function App() {
           <TodoInput />
         </section>
         <section>
-          <div>todo항목</div>
+          <div className="bg-red-100">todo항목</div>
         </section>
       </main>
     </>
