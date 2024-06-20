@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import "./main.css";
 import "./reset.css";
 import TodoInput from "./components/TodoInput";
@@ -18,17 +18,29 @@ function App() {
     setNewText(e.target.value);
   };
 
-  const addTodo = () => {
-    const newItem = {
-      id: idRef.current,
-      text: newText,
-      completed: false,
-    };
-    idRef.current++;
-    const newList = [...todoItem, newItem];
-    setNewText("");
-    setTodoItem(newList);
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (newText.length > 0) {
+      const newItem = {
+        id: idRef.current,
+        text: newText,
+        completed: false,
+      };
+      idRef.current++;
+      const newList = [...todoItem, newItem];
+      setNewText("");
+      console.log("아이템 추가");
+      setTodoItem(newList);
+    }
   };
+
+  const onRemove = useCallback(
+    (id) => {
+      const newList = todoItem.filter((item) => item.id !== id);
+      setTodoItem(newList);
+    },
+    [todoItem]
+  );
 
   return (
     <>
@@ -41,7 +53,7 @@ function App() {
           />
         </section>
         <section className="mt-[10%] w-[50%] flex justify-center items-center flex-col p-3 bg-fuchsia-300 rounded-xl">
-          <TodoList todoItem={todoItem} />
+          <TodoList todoItem={todoItem} onRemove={onRemove} />
         </section>
       </main>
     </>
